@@ -58,4 +58,4 @@ spec:
         - name: SERVICE
           value: "$(params.KNSERVICE)"
         - name: IMAGE
-          value: "$(params.IMAGE)"
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)

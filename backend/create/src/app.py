@@ -79,31 +79,25 @@ def create_tables():
       )
       """)
    
-   try:
-      # connect to the PostgreSQL server
-      conn = psycopg2.connect(
-         host = dbhost,
-         database = db,
-         user = dbuser,
-         password = dbpassword
-      )
+   # connect to the PostgreSQL server
+   conn = psycopg2.connect(
+      host = dbhost,
+      database = db,
+      user = dbuser,
+      password = dbpassword
+   )
 
-      cur = conn.cursor()
-      # create table one by one
-      for command in commands:
-         cur.execute(command)
-      
-      # commit the changes
-      conn.commit()
-      # close communication with the PostgreSQL database server
-      cur.close()
+   cur = conn.cursor()
+   # create table one by one
+   for command in commands:
+      cur.execute(command)
+   
+   # commit the changes
+   conn.commit()
+   # close communication with the PostgreSQL database server
+   cur.close()
 
-      return "Database initialized"
-   except (Exception, psycopg2.DatabaseError) as error:
-      return error
-   finally:
-      if conn is not None:
-         conn.close()
+   return "Database initialized"
 
 if __name__ == "__main__":
    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
