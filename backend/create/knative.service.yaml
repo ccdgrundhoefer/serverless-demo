@@ -6,7 +6,7 @@ spec:
   template:
     spec:
       containers:
-        - image: image-registry.openshift-image-registry.svc:5000/serverless-demo/serverless-demo-git
+        - image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-hello-world:1
           env:
             - name: TARGET
               value: "Python Sample v1"

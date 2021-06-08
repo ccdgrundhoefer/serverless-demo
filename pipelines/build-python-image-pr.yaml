@@ -3,42 +3,14 @@ kind: PipelineRun
 metadata:
   generateName: s2i-python-hello-world
 spec:
-  pipelineSpec:
-    workspaces:
-      - name: shared-workspace
-      - name: sslcertdir
-        optional: true
-    tasks:
-      - name: fetch-repository
-        taskRef:
-          name: git-clone
-          kind: ClusterTask
-        workspaces:
-          - name: output
-            workspace: shared-workspace
-        params:
-          - name: url
-            value: ssh://git@gitlab.gsclabs.cc:43700/dgrundho/serverless-demo.git
-          - name: deleteExisting
-            value: "true"
-          - name: revision
-            value: "master"
-      - name: s2i
-        taskRef:
-          name: s2i-python
-          kind: ClusterTask
-        runAfter:
-          - fetch-repository
-        workspaces:
-          - name: source
-            workspace: shared-workspace
-        params:
-          - name: TLSVERIFY
-            value: "false"
-          - name: PATH_CONTEXT
-            value: "backend/create/src"
-          - name: IMAGE
-            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(context.pipelineRun.name)
+  params:
+    - name: IMAGE
+      value: 'python-hello-world:1'
+    - name: SRCDIR
+      value: backend/create/src
+  pipelineRef:
+    name: build-python-backend
+  serviceAccountName: pipeline
   workspaces:
     - name: shared-workspace
       volumeClaimTemplate:
