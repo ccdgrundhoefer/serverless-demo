@@ -1,0 +1,22 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: api-read
+spec:
+  template:
+    spec:
+      containers:
+        - image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-api-read:0.2
+          env:
+            - name: DBHOST
+              value: "serverless-demo-pg"
+            - name: DBUSER
+              valueFrom:
+                secretKeyRef:
+                  name: serverless-demo-pg-hippo-secret
+                  key: username
+            - name: DBPASS
+              valueFrom:
+                secretKeyRef:
+                  name: serverless-demo-pg-hippo-secret
+                  key: password

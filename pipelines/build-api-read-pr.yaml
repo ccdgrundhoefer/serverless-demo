@@ -1,0 +1,24 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: s2i-python-api-read
+spec:
+  params:
+    - name: IMAGE
+      value: 'python-api-read:0.3'
+    - name: SRCDIR
+      value: backend/read/src
+    - name: KNSERVICE
+      value: "api-read"
+  pipelineRef:
+    name: build-python-backend
+  serviceAccountName: pipeline
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 100Mi
