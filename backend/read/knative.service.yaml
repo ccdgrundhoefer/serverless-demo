@@ -15,26 +15,26 @@ spec:
       containerConcurrency: 0
       containers:
       - env:
-        - name: DB
-          valueFrom:
-            configMapKeyRef:
-              key: db
-              name: dbconfig
-        - name: DBHOST
-          valueFrom:
-            configMapKeyRef:
-              key: dbhost
-              name: dbconfig
-        - name: DBUSER
-          valueFrom:
-            secretKeyRef:
-              key: username
-              name: serverless-demo-pg-hippo-secret
-        - name: DBPASS
-          valueFrom:
-            secretKeyRef:
-              key: password
-              name: serverless-demo-pg-hippo-secret
+          - name: DB
+            valueFrom:
+              configMapKeyRef:
+                key: db
+                name: dbconfig
+          - name: DBHOST
+            valueFrom:
+              configMapKeyRef:
+                key: dbhost
+                name: dbconfig
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                key: username
+                name: serverless-demo-pg-hippo-secret
+          - name: DBPASS
+            valueFrom:
+              secretKeyRef:
+                key: password
+                name: serverless-demo-pg-hippo-secret
         image: image-registry.openshift-image-registry.svc:5000/serverless-demo/api-read:0.2
         imagePullPolicy: IfNotPresent
         name: user-container
