@@ -67,14 +67,13 @@ def create_tables():
 
    print(db)
 
-   commands = (
-      """
+   command = """
       CREATE TABLE temperature (
          id SERIAL PRIMARY KEY,
          value decimal(255) NOT NULL
          datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
-      """)
+      """
    
    # connect to the PostgreSQL server
    conn = psycopg2.connect(
@@ -85,9 +84,8 @@ def create_tables():
    )
 
    cur = conn.cursor()
-   # create table one by one
-   for command in commands:
-      cur.execute(command)
+
+   cur.execute(command)
    
    # commit the changes
    conn.commit()

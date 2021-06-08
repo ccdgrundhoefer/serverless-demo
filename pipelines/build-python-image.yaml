@@ -52,6 +52,7 @@ spec:
       taskRef:
         name: kn-apply
         kind: ClusterTask
+      timeout: "5m"
       runAfter:
         - s2i
       params:
