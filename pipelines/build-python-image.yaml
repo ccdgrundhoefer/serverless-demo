@@ -48,15 +48,17 @@ spec:
           value: "$(params.SRCDIR)"
         - name: IMAGE
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
-    - name: kn-apply
+    - name: kn-update-image
       taskRef:
-        name: kn-apply
+        name: kn
         kind: ClusterTask
       timeout: "5m"
       runAfter:
         - s2i
       params:
-        - name: SERVICE
-          value: "$(params.KNSERVICE)"
-        - name: IMAGE
-          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
+        - name: ARGS
+          value: 
+          - "service"
+          - "update"
+          - "$(params.KNSERVICE)"
+          - "--image image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)"

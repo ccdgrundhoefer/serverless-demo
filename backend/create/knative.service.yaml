@@ -35,7 +35,7 @@ spec:
               secretKeyRef:
                 key: password
                 name: serverless-demo-pg-hippo-secret
-        image: image-registry.openshift-image-registry.svc:5000/serverless-demo/api-create:0.52
+        image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-api-create:0.54
         imagePullPolicy: IfNotPresent
         name: user-container
         ports:
