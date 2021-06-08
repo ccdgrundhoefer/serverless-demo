@@ -46,10 +46,9 @@ def create_value():
                # close communication with the PostgreSQL database server
                cur.close()
 
-
                return "Database initialized"
             except (Exception, psycopg2.DatabaseError) as error:
-               return error
+               return str(error)
             finally:
                if conn is not None:
                   conn.close()

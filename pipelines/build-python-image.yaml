@@ -50,7 +50,7 @@ spec:
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
     - name: kn-update-image
       taskRef:
-        name: kn
+        name: kn-v0-22-0
         kind: ClusterTask
       timeout: "5m"
       runAfter:
@@ -61,4 +61,5 @@ spec:
           - "service"
           - "update"
           - "$(params.KNSERVICE)"
-          - "--image image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)"
+          - "--image"
+          - "image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)"
