@@ -8,6 +8,8 @@ spec:
       containers:
         - image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-api-read:0.2
           env:
+            - name: DB
+              value: "serverless-demo-db"
             - name: DBHOST
               value: "serverless-demo-pg"
             - name: DBUSER

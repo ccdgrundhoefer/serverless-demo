@@ -65,6 +65,8 @@ def create_tables():
    dbpassword = os.environ['DBPASS']
    dbhost = os.environ['DBHOST']
 
+   print(db)
+
    commands = (
       """
       CREATE TABLE temperature (
