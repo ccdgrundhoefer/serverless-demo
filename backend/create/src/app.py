@@ -16,19 +16,14 @@ def create_value():
    if request.method == 'GET':
       if request.args.get('temp', ''):
 
-         db = os.environ.get('DB')
-         dbuser = os.environ.get('DBUSER')
-         dbpassword = os.environ.get('DBPASS')
-         dbhost = os.environ.get('DBHOST')
-
          temperature = request.args.get('temp', '')
          try:
             temp = float(temperature)
 
-            db = os.environ.get('DB')
-            dbuser = os.environ.get('DBUSER')
-            dbpassword = os.environ.get('DBPASS')
-            dbhost = os.environ.get('DBHOST')
+            db = os.environ['DB']
+            dbuser = os.environ['DBUSER']
+            dbpassword = os.environ['DBPASS']
+            dbhost = os.environ['DBHOST']
 
             commands = """INSERT INTO temperature(value) VALUES(%f.2) RETURNING id"""
             
@@ -65,10 +60,10 @@ def create_value():
 @app.route('/initdb')
 def create_tables():
 
-   db = os.environ.get('DB')
-   dbuser = os.environ.get('DBUSER')
-   dbpassword = os.environ.get('DBPASS')
-   dbhost = os.environ.get('DBHOST')
+   db = os.environ['DB']
+   dbuser = os.environ['DBUSER']
+   dbpassword = os.environ['DBPASS']
+   dbhost = os.environ['DBHOST']
 
    commands = (
       """
@@ -100,4 +95,4 @@ def create_tables():
    return "Database initialized"
 
 if __name__ == "__main__":
-   app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
+   app.run(debug=True,host='0.0.0.0',port=int(os.environ.['PORT', 8080)))
