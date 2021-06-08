@@ -31,7 +31,7 @@ def create_value():
             dbpassword = os.environ.get('DBPASS')
             dbhost = os.environ.get('DBHOST')
 
-            commands = """INSERT INTO temperature VALUES(%f.2) RETURNING id"""
+            commands = """INSERT INTO temperature(value) VALUES(%f.2) RETURNING id"""
             
             try:
                # connect to the PostgreSQL server
