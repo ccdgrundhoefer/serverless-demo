@@ -22,7 +22,7 @@ def create_value():
 
          commands = """SELECT value FROM temperature order by id desc limit 1"""
       else:
-         commands = """SELECT value FROM temperature order by id desc limit 1"""      
+         commands = """SELECT value, datetime FROM temperature order by id desc limit 1"""      
 
       try:
          # connect to the PostgreSQL server
@@ -35,14 +35,14 @@ def create_value():
 
          cur = conn.cursor()
          cur.execute(commands)
-         temperature = cur.fetchone()
+         row = cur.fetchone()
 
          # commit the changes
          conn.commit()
          # close communication with the PostgreSQL database server
          cur.close()
 
-         return str(temperature)
+         return "{ temperature: " + str(row[0]) + ", timestamp: " + str(row[1]) + " }"
       except (Exception, psycopg2.DatabaseError) as error:
          return error
       finally:

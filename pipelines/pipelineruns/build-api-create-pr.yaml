@@ -5,7 +5,7 @@ metadata:
 spec:
   params:
     - name: IMAGE
-      value: 'python-api-create:0.57'
+      value: 'python-api-create:0.6'
     - name: SRCDIR
       value: backend/create/src
     - name: KNSERVICE
