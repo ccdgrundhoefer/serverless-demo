@@ -18,14 +18,14 @@ def create_value():
 
          temperature = request.args.get('temp', '')
          try:
-            temp = float(temperature)
+            temp = str(temperature)
 
             db = os.environ['DB']
             dbuser = os.environ['DBUSER']
             dbpassword = os.environ['DBPASS']
             dbhost = os.environ['DBHOST']
 
-            commands = """INSERT INTO temperature(value) VALUES(%f.2) RETURNING id"""
+            commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
             
             try:
                # connect to the PostgreSQL server
@@ -46,7 +46,7 @@ def create_value():
                # close communication with the PostgreSQL database server
                cur.close()
 
-               return "Database initialized"
+               return "Added " + temp + " as id " + str(id)
             except (Exception, psycopg2.DatabaseError) as error:
                return str(error)
             finally:
