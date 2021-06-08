@@ -10,6 +10,9 @@ spec:
   - description: source directory
     name: SRCDIR
     type: string
+  - description: the kn service to update
+    name: KNSERVICE
+    type: string
   workspaces:
     - name: shared-workspace
     - name: sslcertdir
@@ -45,3 +48,14 @@ spec:
           value: "$(params.SRCDIR)"
         - name: IMAGE
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
+    - name: kn-apply
+      taskRef:
+        name: kn-apply
+        kind: ClusterTask
+      runAfter:
+        - s2i
+      params:
+        - name: SERVICE
+          value: "$(params.KNSERVICE)"
+        - name: IMAGE
+          value: "$(params.IMAGE)"

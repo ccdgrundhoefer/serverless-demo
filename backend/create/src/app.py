@@ -6,9 +6,8 @@ import psycopg2
 app = Flask(__name__)
 
 @app.route('/')
-def hello_world():
-   target = os.environ.get('TARGET', 'World')
-   return 'Hello {}!\n'.format(target)
+def empty():
+   return 'API CREATE'
 
 @app.route('/create', methods=['GET'])
 def create_value():
