@@ -1,50 +1,47 @@
 apiVersion: tekton.dev/v1beta1
-kind: PipelineRun
+kind: Pipeline
 metadata:
-  generateName: s2i-python-hello-world
+  name: build-python-backend
 spec:
-  pipelineSpec:
-    workspaces:
-      - name: shared-workspace
-      - name: sslcertdir
-        optional: true
-    tasks:
-      - name: fetch-repository
-        taskRef:
-          name: git-clone
-          kind: ClusterTask
-        workspaces:
-          - name: output
-            workspace: shared-workspace
-        params:
-          - name: url
-            value: ssh://git@gitlab.gsclabs.cc:43700/dgrundho/serverless-demo.git
-          - name: deleteExisting
-            value: "true"
-          - name: revision
-            value: "master"
-      - name: s2i
-        taskRef:
-          name: s2i-python
-          kind: ClusterTask
-        runAfter:
-          - fetch-repository
-        workspaces:
-          - name: source
-            workspace: shared-workspace
-        params:
-          - name: TLSVERIFY
-            value: "false"
-          - name: PATH_CONTEXT
-            value: "backend/create/src"
-          - name: IMAGE
-            value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(context.pipelineRun.name)
+  params:
+  - description: the name of the image
+    name: IMAGE
+    type: string
+  - description: source directory
+    name: SRCDIR
+    type: string
   workspaces:
     - name: shared-workspace
-      volumeClaimTemplate:
-        spec:
-          accessModes:
-            - ReadWriteOnce
-          resources:
-            requests:
-              storage: 100Mi
+    - name: sslcertdir
+      optional: true
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+        kind: ClusterTask
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: ssh://git@gitlab.gsclabs.cc:43700/dgrundho/serverless-demo.git
+        - name: deleteExisting
+          value: "true"
+        - name: revision
+          value: "master"
+    - name: s2i
+      taskRef:
+        name: s2i-python
+        kind: ClusterTask
+      runAfter:
+        - fetch-repository
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+      params:
+        - name: TLSVERIFY
+          value: "false"
+        - name: PATH_CONTEXT
+          value: "$(params.SRCDIR)"
+        - name: IMAGE
+          value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
