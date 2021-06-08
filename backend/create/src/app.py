@@ -69,7 +69,7 @@ def create_tables():
          id SERIAL PRIMARY KEY,
          value decimal(255) NOT NULL,
          datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-      )
+      );
       """
    
    # connect to the PostgreSQL server
