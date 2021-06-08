@@ -68,7 +68,7 @@ def create_tables():
    command = """
       CREATE TABLE temperature (
          id SERIAL PRIMARY KEY,
-         value decimal(255) NOT NULL
+         value decimal(255) NOT NULL,
          datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       )
       """
