@@ -6,6 +6,7 @@ import psycopg2
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
+@cross_origin()
 def create_value():
    error = None
 
