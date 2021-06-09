@@ -42,7 +42,7 @@ def create_value():
          # close communication with the PostgreSQL database server
          cur.close()
 
-         return "{ temperature: " + str(row[0]) + ", humidity:" + str(row[1]) + ", timestamp: " + str(row[2]) + " }"
+         return "{ temperature: " + str(row[0]) + ", humidity: " + str(row[1]) + ", timestamp: " + str(row[2]) + " }"
       except (Exception, psycopg2.DatabaseError) as error:
          return error
       finally:
