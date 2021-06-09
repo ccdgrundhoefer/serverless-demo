@@ -17,7 +17,7 @@ def read_latest():
    dbpassword = os.environ.get('DBPASS')
    dbhost = os.environ.get('DBHOST')
 
-   commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""      
+   commands = """SELECT temperature::float, humidity::float, datetime FROM sensordata order by id desc limit 1"""      
 
    try:
       # connect to the PostgreSQL server
@@ -59,7 +59,7 @@ def get_chart():
    dbpassword = os.environ.get('DBPASS')
    dbhost = os.environ.get('DBHOST')
 
-   commands = """SELECT temperature FROM sensordata order by id desc limit 10"""      
+   commands = """SELECT temperature::float FROM sensordata order by id desc limit 10"""      
 
    try:
       # connect to the PostgreSQL server
@@ -75,10 +75,10 @@ def get_chart():
       row = cur.fetchone()
 
       res = []
-      res.append(float(row[0]))
+      res.append(row[0])
 
       while row is not None:
-         res.append(float(row[0]))
+         res.append(row[0])
          row = cur.fetchone() 
 
       # commit the changes
