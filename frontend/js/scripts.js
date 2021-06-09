@@ -11,7 +11,7 @@ $("#refresh").click(function() {
 
         var currentdate = new Date();
 
-        $("#tempfooter").html(currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds());
-        $("#humfooter").html(currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds());
+        $("#tempfooter").html(d.timestamp);
+        $("#humfooter").html(d.timestamp);
     });
 });
