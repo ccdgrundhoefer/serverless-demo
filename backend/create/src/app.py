@@ -21,13 +21,14 @@ def create_value():
 
       try:
          temp = str(temperature)
+         hum = str(humidity)
 
          db = os.environ['DB']
          dbuser = os.environ['DBUSER']
          dbpassword = os.environ['DBPASS']
          dbhost = os.environ['DBHOST']
 
-         commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
+         commands = """INSERT INTO sensordata(temperature, humidity) VALUES(""" + temp + """, """ + hum + """) RETURNING id"""
          
          try:
             # connect to the PostgreSQL server
@@ -69,9 +70,10 @@ def create_tables():
    dbhost = os.environ['DBHOST']
 
    command = """
-      CREATE TABLE temperature (
+      CREATE TABLE sensordata (
          id SERIAL PRIMARY KEY,
-         value decimal(255) NOT NULL,
+         temperature decimal(255) NOT NULL,
+         humidity decimal(255),
          datetime TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
       );
       """

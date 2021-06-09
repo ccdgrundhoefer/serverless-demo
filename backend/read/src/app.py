@@ -20,9 +20,9 @@ def create_value():
 
          time = request.args.get('time', '')
 
-         commands = """SELECT value FROM temperature order by id desc limit 1"""
+         commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""
       else:
-         commands = """SELECT value, datetime FROM temperature order by id desc limit 1"""      
+         commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""      
 
       try:
          # connect to the PostgreSQL server
@@ -42,7 +42,7 @@ def create_value():
          # close communication with the PostgreSQL database server
          cur.close()
 
-         return "{ temperature: " + str(row[0]) + ", timestamp: " + str(row[1]) + " }"
+         return "{ temperature: " + str(row[0]) + ", humidity:" + str(row[1]) + ", timestamp: " + str(row[2]) + " }"
       except (Exception, psycopg2.DatabaseError) as error:
          return error
       finally:
