@@ -5,7 +5,7 @@ metadata:
 spec:
   params:
     - name: IMAGE
-      value: 'python-api-read:0.9'
+      value: 'python-api-read:0.91'
     - name: SRCDIR
       value: backend/read/src
     - name: KNSERVICE

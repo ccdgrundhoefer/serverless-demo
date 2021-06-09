@@ -17,10 +17,29 @@ $("#refresh").click(function () {
     });
 
     $.get("http://api-read-serverless-demo.apps.cluster-598a.598a.sandbox502.opentlc.com/chart", function (data) {
+
+        d = $.parseJSON(data);
+
+        console.log(d);
+
+        const data = {
+            datasets: [{
+                label: 'Temperature',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: d,
+            }]
+        };
+
         const config = {
             type: 'line',
             data,
             options: {}
-          };
+        };
+
+        var myChart = new Chart(
+            document.getElementById('tempchart'),
+            config
+        );
     });
 });
