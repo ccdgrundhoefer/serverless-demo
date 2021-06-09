@@ -22,7 +22,7 @@ $("#refresh").click(function () {
 
         console.log(d);
 
-        const data = {
+        const chartdata = {
             datasets: [{
                 label: 'Temperature',
                 backgroundColor: 'rgb(255, 99, 132)',
@@ -33,11 +33,11 @@ $("#refresh").click(function () {
 
         const config = {
             type: 'line',
-            data,
+            chartdata,
             options: {}
         };
 
-        var myChart = new Chart(
+        var tempChart = new Chart(
             document.getElementById('tempchart'),
             config
         );
