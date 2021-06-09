@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request
 from flask_cors import CORS
+from decimal import *
 import json
 import psycopg2
 
@@ -38,8 +39,8 @@ def read_latest():
       cur.close()
 
       x = {
-         "temperature": str(row[0]),
-         "humidity": str(row[1]),
+         "temperature": "{0:0.2f}".format(decimal.Decimal(row[0])),
+         "humidity": "{0:0.2f}".format(decimal.Decimal(row[1])),
          "timestamp": str(row[2])
       }
 
@@ -75,10 +76,10 @@ def get_chart():
       row = cur.fetchone()
 
       res = []
-      res.append(float(row[0]))
+      res.append("{0:0.2f}".format(decimal.Decimal(row[0])))
 
       while row is not None:
-         res.append(float(row[0]))
+         res.append("{0:0.2f}".format(decimal.Decimal(row[0])))
          row = cur.fetchone() 
 
       # commit the changes
