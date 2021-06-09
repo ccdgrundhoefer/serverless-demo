@@ -15,7 +15,7 @@ def create_value():
 
    request_data = request.get_json()
    
-   print(request_data)
+   app.logger.info(request_data)
 
    if request_data:
       temperature = request_data["temp"]
