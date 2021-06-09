@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, request
 from flask_cors import CORS
+import json
 import psycopg2
 
 app = Flask(__name__)
@@ -44,7 +45,13 @@ def create_value():
          # close communication with the PostgreSQL database server
          cur.close()
 
-         return "{ temperature: " + str(row[0]) + ", humidity: " + str(row[1]) + ", timestamp: " + str(row[2]) + " }"
+         x = {
+            "temperature": str(row[0]),
+            "humidity": str(row[1]),
+            "timestamp": str(row[2])
+         }
+
+         return json.dumps(x)
       except (Exception, psycopg2.DatabaseError) as error:
          return error
       finally:
