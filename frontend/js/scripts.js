@@ -15,4 +15,12 @@ $("#refresh").click(function () {
         $("#tempfooter").html(d.timestamp);
         $("#humfooter").html(d.timestamp);
     });
+
+    $.get("http://api-read-serverless-demo.apps.cluster-598a.598a.sandbox502.opentlc.com/chart", function (data) {
+        const config = {
+            type: 'line',
+            data,
+            options: {}
+          };
+    });
 });

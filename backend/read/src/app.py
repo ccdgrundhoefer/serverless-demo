@@ -12,95 +12,85 @@ CORS(app)
 def read_latest():
    error = None
 
-   if request.method == 'GET':
+   db = os.environ.get('DB')
+   dbuser = os.environ.get('DBUSER')
+   dbpassword = os.environ.get('DBPASS')
+   dbhost = os.environ.get('DBHOST')
 
-      db = os.environ.get('DB')
-      dbuser = os.environ.get('DBUSER')
-      dbpassword = os.environ.get('DBPASS')
-      dbhost = os.environ.get('DBHOST')
+   commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""      
 
-      if request.args.get('time', ''):
+   try:
+      # connect to the PostgreSQL server
+      conn = psycopg2.connect(
+         host = dbhost,
+         database = db,
+         user = dbuser,
+         password = dbpassword
+      )
 
-         time = request.args.get('time', '')
+      cur = conn.cursor()
+      cur.execute(commands)
+      row = cur.fetchone()
 
-         commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""
-      else:
-         commands = """SELECT temperature, humidity, datetime FROM sensordata order by id desc limit 1"""      
+      # commit the changes
+      conn.commit()
+      # close communication with the PostgreSQL database server
+      cur.close()
 
-      try:
-         # connect to the PostgreSQL server
-         conn = psycopg2.connect(
-            host = dbhost,
-            database = db,
-            user = dbuser,
-            password = dbpassword
-         )
+      x = {
+         "temperature": str(row[0]),
+         "humidity": str(row[1]),
+         "timestamp": str(row[2])
+      }
 
-         cur = conn.cursor()
-         cur.execute(commands)
-         row = cur.fetchone()
-
-         # commit the changes
-         conn.commit()
-         # close communication with the PostgreSQL database server
-         cur.close()
-
-         x = {
-            "temperature": str(row[0]),
-            "humidity": str(row[1]),
-            "timestamp": str(row[2])
-         }
-
-         return json.dumps(x)
-      except (Exception, psycopg2.DatabaseError) as error:
-         return error
-      finally:
-         if conn is not None:
-            conn.close()
+      return json.dumps(x)
+   except (Exception, psycopg2.DatabaseError) as error:
+      return error
+   finally:
+      if conn is not None:
+         conn.close()
 
 @app.route('/chart', methods=['GET'])
 def get_chart():
- error = None
+   error = None
 
-   if request.method == 'GET':
+   db = os.environ.get('DB')
+   dbuser = os.environ.get('DBUSER')
+   dbpassword = os.environ.get('DBPASS')
+   dbhost = os.environ.get('DBHOST')
 
-      db = os.environ.get('DB')
-      dbuser = os.environ.get('DBUSER')
-      dbpassword = os.environ.get('DBPASS')
-      dbhost = os.environ.get('DBHOST')
+   commands = """SELECT temperature FROM sensordata order by id desc limit 10"""      
 
-      commands = """SELECT temperature FROM sensordata order by id desc limit 10"""      
+   try:
+      # connect to the PostgreSQL server
+      conn = psycopg2.connect(
+         host = dbhost,
+         database = db,
+         user = dbuser,
+         password = dbpassword
+      )
 
-      try:
-         # connect to the PostgreSQL server
-         conn = psycopg2.connect(
-            host = dbhost,
-            database = db,
-            user = dbuser,
-            password = dbpassword
-         )
+      cur = conn.cursor()
+      cur.execute(commands)
+      row = cur.fetchone()
 
-         cur = conn.cursor()
-         cur.execute(commands)
-         row = cur.fetchone()
+      res = []
+      res.append(row[0])
 
-         res = []
-         res.append(row[0])
+      while row is not None:
+         res.append(row[0]) 
 
-         while row is not None:
-            res.append(row[0]) 
+      # commit the changes
+      conn.commit()
+      # close communication with the PostgreSQL database server
+      cur.close()
 
-         # commit the changes
-         conn.commit()
-         # close communication with the PostgreSQL database server
-         cur.close()
-
-         return json.dumps(res)
-      except (Exception, psycopg2.DatabaseError) as error:
-         return error
-      finally:
-         if conn is not None:
-            conn.close()
+      return json.dumps(res)
+   except (Exception, psycopg2.DatabaseError) as error:
+      return error
+   finally:
+      if conn is not None:
+         conn.close()
 
 if __name__ == "__main__":
    app.run(debug=True,host='0.0.0.0',port=int(os.environ.get('PORT', 8080)))
