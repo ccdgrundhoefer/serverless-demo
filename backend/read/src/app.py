@@ -75,10 +75,10 @@ def get_chart():
       row = cur.fetchone()
 
       res = []
-      res.append(row[0])
+      res.append(float(row[0]))
 
       while row is not None:
-         res.append(row[0])
+         res.append(float(row[0]))
          row = cur.fetchone() 
 
       # commit the changes
@@ -89,7 +89,7 @@ def get_chart():
       app.logger.info(res)
 
       return json.dumps(res)
-      
+
    except (Exception, psycopg2.DatabaseError) as error:
       return error
    finally:
