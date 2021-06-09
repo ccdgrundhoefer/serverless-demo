@@ -1,0 +1,24 @@
+apiVersion: crunchydata.com/v1
+kind: Pgreplica
+metadata:
+  labels:
+    name: serverless-demo-pg-1
+    pg-cluster: serverless-demo-pg
+    pgouser: admin
+  name: serverless-demo-pg-1
+  namespace: serverless-demo
+spec:
+  clustername: serverless-demo-pg
+  name: serverless-demo-pg-1
+  namespace: serverless-demo
+  replicastorage:
+    accessmode: ReadWriteOnce
+    matchLabels: ""
+    name: serverless-demo-pg-1
+    size: 1G
+    storageclass: "gp2-csi"
+    storagetype: dynamic
+    supplementalgroups: ""
+  tolerations: []
+  userlabels:
+    pgo-version: 4.6.2
