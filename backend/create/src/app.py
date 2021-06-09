@@ -9,51 +9,52 @@ app = Flask(__name__)
 def empty():
    return 'API CREATE'
 
-@app.route('/create', methods=['GET'])
+@app.route('/create', methods=['POST'])
 def create_value():
    error = None
 
-   if request.method == 'GET':
-      if request.args.get('temp', ''):
+   request_data = request.get_json()
 
-         temperature = request.args.get('temp', '')
-         try:
-            temp = str(temperature)
+   temperature = request_data["temp"]
+   humidity = request_data["humidity"]
 
-            db = os.environ['DB']
-            dbuser = os.environ['DBUSER']
-            dbpassword = os.environ['DBPASS']
-            dbhost = os.environ['DBHOST']
+   try:
+      temp = str(temperature)
 
-            commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
-            
-            try:
-               # connect to the PostgreSQL server
-               conn = psycopg2.connect(
-                  host = dbhost,
-                  database = db,
-                  user = dbuser,
-                  password = dbpassword
-               )
+      db = os.environ['DB']
+      dbuser = os.environ['DBUSER']
+      dbpassword = os.environ['DBPASS']
+      dbhost = os.environ['DBHOST']
 
-               cur = conn.cursor()
+      commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
+      
+      try:
+         # connect to the PostgreSQL server
+         conn = psycopg2.connect(
+            host = dbhost,
+            database = db,
+            user = dbuser,
+            password = dbpassword
+         )
 
-               cur.execute(commands, (temperature,))
-               id = cur.fetchone()[0]
+         cur = conn.cursor()
 
-               # commit the changes
-               conn.commit()
-               # close communication with the PostgreSQL database server
-               cur.close()
+         cur.execute(commands, (temperature,))
+         id = cur.fetchone()[0]
 
-               return "Added " + temp + " as id " + str(id)
-            except (Exception, psycopg2.DatabaseError) as error:
-               return str(error)
-            finally:
-               if conn is not None:
-                  conn.close()
-         except ValueError:
-            return "Invalid temperature"
+         # commit the changes
+         conn.commit()
+         # close communication with the PostgreSQL database server
+         cur.close()
+
+         return "Added " + temp + " as id " + str(id)
+      except (Exception, psycopg2.DatabaseError) as error:
+         return str(error)
+      finally:
+         if conn is not None:
+            conn.close()
+   except ValueError:
+      return "Invalid temperature"
 
 
 @app.route('/initdb')
