@@ -25,7 +25,7 @@ $("#refresh").click(function () {
                 label: 'Temperature',
                 fill: false,
                 borderColor: 'rgb(255, 99, 132)',
-                data: d,
+                data: d.temp,
                 tension: 0.1
             }]
         };

@@ -59,7 +59,7 @@ def get_chart():
    dbpassword = os.environ.get('DBPASS')
    dbhost = os.environ.get('DBHOST')
 
-   commands = """SELECT temperature::float FROM sensordata order by id desc limit 10"""      
+   commands = """SELECT temperature::float, datetime FROM sensordata order by id desc limit 10"""      
 
    try:
       # connect to the PostgreSQL server
@@ -77,8 +77,12 @@ def get_chart():
       res = []
       res.append(row[0])
 
+      dt = []
+      dt.append(str(row[1]))
+
       while row is not None:
          res.append(row[0])
+         dt.append(str(row[1]))
          row = cur.fetchone() 
 
       # commit the changes
@@ -88,7 +92,12 @@ def get_chart():
 
       app.logger.info(res)
 
-      return json.dumps(res)
+      j = {
+         "temperature": res,
+         "datetime": dt
+      }
+
+      return json.dumps(j)
 
    except (Exception, psycopg2.DatabaseError) as error:
       return error
