@@ -1,8 +1,10 @@
 $("#initdb").get("http://api-create-serverless-demo.apps.cluster-598a.598a.sandbox502.opentlc.com/initdb");
-$("#refresh").get("http://api-read-serverless-demo.apps.cluster-598a.598a.sandbox502.opentlc.com", function (data) {
-    $("#temp").html(data)
+$("#refresh").click(function() {
+    $.get("http://api-read-serverless-demo.apps.cluster-598a.598a.sandbox502.opentlc.com", function (data) {
+        $("#temp").html(data)
 
-    var currentdate = new Date();
+        var currentdate = new Date();
 
-    $("#tempfooter").html(currentdate.getHours() + ":" + currentdate.getMinutes + ":" + currentdate.getSeconds())
+        $("#tempfooter").html(currentdate.getHours() + ":" + currentdate.getMinutes + ":" + currentdate.getSeconds())
+    });
 });
