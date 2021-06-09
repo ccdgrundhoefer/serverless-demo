@@ -86,7 +86,10 @@ def get_chart():
       # close communication with the PostgreSQL database server
       cur.close()
 
+      app.logger.info(res)
+
       return json.dumps(res)
+      
    except (Exception, psycopg2.DatabaseError) as error:
       return error
    finally:
