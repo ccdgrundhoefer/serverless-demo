@@ -4,7 +4,7 @@ $("#refresh").click(function() {
         
         d = $.parseJSON(data);
         
-        $("#temperature").html(d.temp + "°C");
+        $("#temperature").html(d.temperature + "°C");
         $("#humidity").html(d.humidity + "%");
 
         var currentdate = new Date();
