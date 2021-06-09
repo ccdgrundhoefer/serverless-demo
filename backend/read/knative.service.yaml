@@ -11,6 +11,9 @@ spec:
         app.kubernetes.io/name: api-read
         app.kubernetes.io/part-of: serverless-demo-backend
         app.openshift.io/runtime: python
+      annotations:
+        autoscaling.knative.dev/target: "10"
+        autoscaling.knative.dev/targetUtilizationPercentage: "80"
     spec:
       containerConcurrency: 0
       containers:
