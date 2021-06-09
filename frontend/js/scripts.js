@@ -4,6 +4,8 @@ $("#refresh").click(function() {
         
         d = $.parseJSON(data);
         
+        console.log(d);
+
         $("#temperature").html(d.temperature + "°C");
         $("#humidity").html(d.humidity + "%");
 
