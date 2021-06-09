@@ -14,6 +14,8 @@ def create_value():
    error = None
 
    request_data = request.get_json()
+   
+   print(request_data)
 
    if request_data:
       temperature = request_data["temp"]
