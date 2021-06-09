@@ -20,21 +20,19 @@ $("#refresh").click(function () {
 
         d = $.parseJSON(data);
 
-        console.log(d);
-
         const chartdata = {
             datasets: [{
                 label: 'Temperature',
-                backgroundColor: 'rgb(255, 99, 132)',
+                fill: false,
                 borderColor: 'rgb(255, 99, 132)',
                 data: d,
+                tension: 0.1
             }]
         };
 
         const config = {
             type: 'line',
             chartdata,
-            options: {}
         };
 
         var tempChart = new Chart(
