@@ -15,46 +15,49 @@ def create_value():
 
    request_data = request.get_json()
 
-   temperature = request_data["temp"]
-   humidity = request_data["humidity"]
+   if request_data:
+      temperature = request_data["temp"]
+      humidity = request_data["humidity"]
 
-   try:
-      temp = str(temperature)
-
-      db = os.environ['DB']
-      dbuser = os.environ['DBUSER']
-      dbpassword = os.environ['DBPASS']
-      dbhost = os.environ['DBHOST']
-
-      commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
-      
       try:
-         # connect to the PostgreSQL server
-         conn = psycopg2.connect(
-            host = dbhost,
-            database = db,
-            user = dbuser,
-            password = dbpassword
-         )
+         temp = str(temperature)
 
-         cur = conn.cursor()
+         db = os.environ['DB']
+         dbuser = os.environ['DBUSER']
+         dbpassword = os.environ['DBPASS']
+         dbhost = os.environ['DBHOST']
 
-         cur.execute(commands, (temperature,))
-         id = cur.fetchone()[0]
+         commands = """INSERT INTO temperature(value) VALUES(""" + temp + """) RETURNING id"""
+         
+         try:
+            # connect to the PostgreSQL server
+            conn = psycopg2.connect(
+               host = dbhost,
+               database = db,
+               user = dbuser,
+               password = dbpassword
+            )
 
-         # commit the changes
-         conn.commit()
-         # close communication with the PostgreSQL database server
-         cur.close()
+            cur = conn.cursor()
 
-         return "Added " + temp + " as id " + str(id)
-      except (Exception, psycopg2.DatabaseError) as error:
-         return str(error)
-      finally:
-         if conn is not None:
-            conn.close()
-   except ValueError:
-      return "Invalid temperature"
+            cur.execute(commands, (temperature,))
+            id = cur.fetchone()[0]
+
+            # commit the changes
+            conn.commit()
+            # close communication with the PostgreSQL database server
+            cur.close()
+
+            return "Added " + temp + " as id " + str(id)
+         except (Exception, psycopg2.DatabaseError) as error:
+            return str(error)
+         finally:
+            if conn is not None:
+               conn.close()
+      except ValueError:
+         return "Invalid temperature"
+   else:
+      return str(request.get_json())
 
 
 @app.route('/initdb')
