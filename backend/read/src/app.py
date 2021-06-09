@@ -78,7 +78,8 @@ def get_chart():
       res.append(row[0])
 
       while row is not None:
-         res.append(row[0]) 
+         res.append(row[0])
+         row = cur.fetchone() 
 
       # commit the changes
       conn.commit()
