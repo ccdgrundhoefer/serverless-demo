@@ -6,7 +6,7 @@ $("#refresh").click(function() {
         
         console.log(d);
 
-        $("#temperature").html(d.temperature + "°C");
+        $("#temp").html(d.temperature + "°C");
         $("#humidity").html(d.humidity + "%");
 
         var currentdate = new Date();
