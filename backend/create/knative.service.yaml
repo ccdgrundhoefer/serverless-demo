@@ -20,25 +20,25 @@ spec:
       - env:
           - name: DB
             valueFrom:
-              configMapKeyRef:
-                key: db
-                name: dbconfig
+              secretKeyRef:
+                key: dbname
+                name: serverless-demo-pg-pguser-hippo
           - name: DBHOST
             valueFrom:
-              configMapKeyRef:
-                key: dbhost
-                name: dbconfig
+              secretKeyRef:
+                key: host
+                name: serverless-demo-pg-pguser-hippo
           - name: DBUSER
             valueFrom:
               secretKeyRef:
-                key: username
-                name: serverless-demo-pg-hippo-secret
+                key: user
+                name: serverless-demo-pg-pguser-hippo
           - name: DBPASS
             valueFrom:
               secretKeyRef:
                 key: password
-                name: serverless-demo-pg-hippo-secret
-        image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-api-create:0.54
+                name: serverless-demo-pg-pguser-hippo
+        image: image-registry.openshift-image-registry.svc:5000/serverless-demo/python-api-create:1.1
         imagePullPolicy: IfNotPresent
         name: user-container
         ports:

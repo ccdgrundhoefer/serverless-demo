@@ -1,0 +1,57 @@
+esphome:
+  name: temperature-http-node
+  platform: ESP8266
+  board: nodemcuv2
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Temperature-Http-node"
+    password: "3epPAl1xT3vG"
+
+captive_portal:
+
+# Enable logging
+debug:
+
+logger:
+  level: DEBUG
+
+ota:
+
+http_request:
+  useragent: esphome/device
+  timeout: 10s
+
+time:
+  - platform: sntp
+    on_time:
+      # Every 1 minutes
+      - seconds: 0
+        minutes: /1
+        then:
+          - http_request.post:
+              url: http://api-create-serverless-demo.apps.cluster-2c4d.2c4d.sandbox320.opentlc.com/create
+              headers:
+                Content-Type: application/json
+              json: |-
+                root["temp"] = id(temp).state;
+                root["humidity"] = id(humidity).state;
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+
+sensor:
+  - platform: htu21d
+    temperature:
+      name: "Tempnode Temperature Si7021"
+      id: temp
+    humidity:
+      name: "Tempnode Humidity"
+      id: humidity
+    update_interval: 60s

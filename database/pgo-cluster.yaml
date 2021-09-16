@@ -1,53 +1,33 @@
-apiVersion: crunchydata.com/v1
-kind: Pgcluster
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
 metadata:
-  labels:
-    crunchy-pgha-scope: serverless-demo-pg
-    deployment-name: serverless-demo-pg
-    name: serverless-demo-pg
-    namespace: serverless-demo
-    pg-cluster: serverless-demo-pg
-    pgo-version: 4.6.2
-  annotations:
-    current-primary: serverless-demo-pg
   name: serverless-demo-pg
-  namespace: serverless-demo
 spec:
-  port: '5432'
-  exporterport: '9187'
-  clustername: serverless-demo-pg
-  pgbadgerport: '10000'
-  userlabels:
-    pgo-version: 4.6.2
-  name: serverless-demo-pg
-  ccpimage: crunchy-postgres-ha
-  ccpimagetag: ubi8-13.2-4.6.2
-  PrimaryStorage:
-    accessmode: ReadWriteOnce
-    matchLabels: ''
-    name: serverless-demo-pg
-    size: 5Gi
-    storageclass: 'gp2-csi'
-    storagetype: dynamic
-    supplementalgroups: ''
-  database: serverless-demo-db
-  namespace: serverless-demo
-  BackrestStorage:
-    accessmode: ReadWriteOnce
-    matchLabels: ''
-    name: 'serverless-demo-pg-backrest'
-    size: 5Gi
-    storageclass: 'gp2-csi'
-    storagetype: dynamic
-    supplementalgroups: ''
-  ReplicaStorage:
-    accessmode: ReadWriteOnce
-    matchLabels: ''
-    name: 'serverless-demo-pg-replica'
-    size: 5Gi
-    storageclass: 'gp2-csi'
-    storagetype: dynamic
-    supplementalgroups: ''
-  podAntiAffinity:
-    default: preferred
-  user: hippo
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.4-0
+  postgresVersion: 13
+  instances:
+    - name: serverless-demo-pg-instance1
+      dataVolumeClaimSpec:
+        accessModes:
+        - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 1Gi
+  users:
+    - name: hippo
+      databases:
+      - serverless-demo-db
+  backups:
+    pgbackrest:
+      image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:centos8-2.33-2
+      repoHost:
+        dedicated: {}
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - "ReadWriteOnce"
+            resources:
+              requests:
+                storage: 1Gi

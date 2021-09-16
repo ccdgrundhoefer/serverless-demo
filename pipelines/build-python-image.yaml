@@ -27,7 +27,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: url
-          value: ssh://git@gitlab.gsclabs.cc:43700/dgrundho/serverless-demo.git
+          value: ssh://git@github.com/ccdgrundhoefer/serverless-demo.git
         - name: deleteExisting
           value: "true"
         - name: revision
@@ -50,7 +50,7 @@ spec:
           value: image-registry.openshift-image-registry.svc:5000/$(context.pipelineRun.namespace)/$(params.IMAGE)
     - name: kn-update-image
       taskRef:
-        name: kn-v0-22-0
+        name: kn
         kind: ClusterTask
       timeout: "5m"
       runAfter:
