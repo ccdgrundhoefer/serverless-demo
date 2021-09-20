@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: dbconfig
-  labels:
-    app: serverless-demo-backend
-data:
-  db: serverless-demo-db
-  dbhost: serverless-demo-pg
