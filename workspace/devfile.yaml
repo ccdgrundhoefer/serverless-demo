@@ -1,5 +1,5 @@
 metadata:
-  name: python-serverless-demo
+  generateName: python-serverless-demo-
 projects:
   - name: serverless-demo
     source:
