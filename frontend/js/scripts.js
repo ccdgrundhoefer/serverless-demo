@@ -1,7 +1,7 @@
 $("#initdb").click(function () { $.get("http://api-create-serverless-demo.apps.cluster-2c4d.2c4d.sandbox320.opentlc.com/initdb"); });
 
 $("#refresh").click(function () {
-    $.get("http://api-read-serverless-demo.apps.cluster-2c4d.2c4d.sandbox320.opentlc.com", function (data) {
+    $.get("http://http://api-read-serverless-demo.apps.cluster-d916.d916.sandbox234.opentlc.com", function (data) {
 
         d = $.parseJSON(data);
 
@@ -16,7 +16,7 @@ $("#refresh").click(function () {
         $("#humfooter").html(d.timestamp);
     });
 
-    $.get("http://api-read-serverless-demo.apps.cluster-2c4d.2c4d.sandbox320.opentlc.com/chart", function (data) {
+    $.get("http://http://api-read-serverless-demo.apps.cluster-d916.d916.sandbox234.opentlc.com/chart", function (data) {
 
         d = $.parseJSON(data);
 

@@ -27,7 +27,7 @@ spec:
           workspace: shared-workspace
       params:
         - name: url
-          value: ssh://git@github.com/ccdgrundhoefer/serverless-demo.git
+          value: https://github.com/ccdgrundhoefer/serverless-demo.git
         - name: deleteExisting
           value: "true"
         - name: revision
