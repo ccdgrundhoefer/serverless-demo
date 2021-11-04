@@ -1,0 +1,45 @@
+metadata:
+  name: python-serverless-demo
+projects:
+  - name: serverless-demo
+    source:
+      location: 'https://github.com/ccdgrundhoefer/serverless-demo.git'
+      type: git 
+components:
+  - id: ms-python/python/latest
+    preferences:
+      python.globalModuleInstallation: true
+    type: chePlugin
+  - mountSources: true
+    memoryLimit: 512Mi
+    type: dockerimage
+    volumes:
+      - name: venv
+        containerPath: /home/jboss/.venv
+    alias: python
+    image: >-
+      registry.redhat.io/codeready-workspaces/plugin-java8-rhel8@sha256:1c4faa2dae80c373f606f542ca841f991d1dfa27979006500aca85e3c2999d2d
+apiVersion: 1.0.0
+commands:
+  - name: 1. Run
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/python-serverless-demo'
+        type: exec
+        command: python -m venv .venv && . .venv/bin/activate && python hello-world.py
+        component: python
+  - name: Debug current file
+    actions:
+      - referenceContent: |
+          {
+            "version": "0.2.0",
+            "configurations": [
+              {
+                "name": "Python: Current File",
+                "type": "python",
+                "request": "launch",
+                "program": "${file}",
+                "console": "internalConsole"
+              }
+            ]
+          }
+        type: vscode-launch
