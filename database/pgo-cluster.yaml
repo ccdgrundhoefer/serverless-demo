@@ -2,6 +2,8 @@ apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
   name: serverless-demo-pg
+  labels:
+    app: serverless-demo-git-app
 spec:
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres-ha:centos8-13.4-0
   postgresVersion: 13

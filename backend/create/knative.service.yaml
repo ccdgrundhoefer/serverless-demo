@@ -2,10 +2,13 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: api-create
+  labels:
+    app: serverless-demo-git-app
 spec:
   template:
     metadata:
       labels:
+        app: serverless-demo-git-app
         app.kubernetes.io/component: api-create
         app.kubernetes.io/instance: api-create
         app.kubernetes.io/name: api-create

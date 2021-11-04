@@ -2,10 +2,13 @@ apiVersion: serving.knative.dev/v1
 kind: Service
 metadata:
   name: api-read
+  labels:
+    app: serverless-demo-git-app
 spec:
   template:
     metadata:
       labels:
+        app: serverless-demo-git-app
         app.kubernetes.io/component: api-read
         app.kubernetes.io/instance: api-read
         app.kubernetes.io/name: api-read
