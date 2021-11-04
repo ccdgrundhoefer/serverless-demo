@@ -25,7 +25,7 @@ commands:
     actions:
       - workdir: '${CHE_PROJECTS_ROOT}/python-serverless-demo'
         type: exec
-        command: python -m venv .venv && . .venv/bin/activate && python hello-world.py
+        command: python -m venv .venv && . .venv/bin/activate && python app.py
         component: python
   - name: Debug current file
     actions:
@@ -43,3 +43,15 @@ commands:
             ]
           }
         type: vscode-launch
+  - name: install odo
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/python-serverless-demo'
+        type: exec
+        command: 'rm odo; curl https://mirror.openshift.com/pub/openshift-v4/clients/odo/latest/odo-linux-amd64.tar.gz -s | tar zxv && chmod 755 odo'
+        component: python
+  - name: install oc
+    actions:
+      - workdir: '${CHE_PROJECTS_ROOT}/python-serverless-demo'
+        type: exec
+        command: 'rm oc; curl https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz -s | tar zxv && chmod 755 oc'
+        component: python  
